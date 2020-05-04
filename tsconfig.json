@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist/",
+    "rootDir": "./src/",
+    "strict": true,
+    "sourceMap": true,
+    "newLine": "lf",
+    "removeComments": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node"
+  },
+  "include": [
+    "./src/**/*.ts"
+  ]
+}

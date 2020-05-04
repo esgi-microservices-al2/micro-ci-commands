@@ -1,0 +1,29 @@
+{
+  "name": "micro-ci-commands",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env-shell NODE_ENV=development \"tsc-watch --onSuccess \\\"npm run start\\\"\"",
+    "build": "tsc --project ./tsconfig.json",
+    "start": "node ./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esgi-microservices-al2/micro-ci-commands.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/esgi-microservices-al2/micro-ci-commands/issues"
+  },
+  "homepage": "https://github.com/esgi-microservices-al2/micro-ci-commands#readme",
+  "dependencies": {
+    "@types/express": "^4.17.6",
+    "cross-env": "^7.0.2",
+    "express": "^4.17.1",
+    "tsc-watch": "^4.2.3",
+    "typescript": "^3.8.3"
+  }
+}
