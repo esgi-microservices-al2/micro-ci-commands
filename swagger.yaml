@@ -67,6 +67,6 @@ paths:
                                 type: object
                                 $ref: '#/components/schemas/Job'
                 '403':
-                    description: Job already exists.
+                    description: Job already exists for this project.
                 '500':
                     description: Something wrong happened

@@ -2,13 +2,13 @@
 
 import { Schema, model, Document, Model } from "mongoose"
 
-interface IScript {
+interface ICommand {
     program: string
     arguments: string[]
 }
 
 export interface IJob extends Document {
-    script: IScript
+    script: ICommand[]
     project: string
 }
 

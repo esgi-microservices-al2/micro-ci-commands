@@ -14,7 +14,7 @@ export function jobRouter (){
         const jobs = await Job.find(req.query)
         
         return res.json({
-            data: jobs
+            data: jobs.map(j => j.toJSON())
         })
 
     }))
@@ -30,7 +30,7 @@ export function jobRouter (){
         }
 
         return res.json({
-            data: job
+            data: job.toJSON()
         })
 
     }))
@@ -51,7 +51,26 @@ export function jobRouter (){
         res.location(`/job/${saved._id}`)
 
         return res.status(201).json({
-            data: saved
+            data: saved.toJSON()
+        })
+    }))
+
+    router.post("/:id/command", jsonParser, asyncHandler(async (req, res, next) => {
+
+        const job = await Job.findById(req.params.id)
+
+        if (!job){
+            return res.status(404).json({
+                errors: [ 'Not found' ]
+            })
+        }
+
+        job.script.push(req.body)
+
+        const saved = await job.save()
+
+        return res.status(200).json({
+            data: saved.toJSON()
         })
     }))
 
@@ -85,7 +104,7 @@ export function jobRouter (){
         res.location(`/job/${updated._id}`)
 
         return res.status(200).json({
-            data: updated
+            data: updated.toJSON()
         })
         
     }))
