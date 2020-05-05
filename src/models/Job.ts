@@ -28,7 +28,9 @@ const jobSchema = new Schema(
                 type: [String],
                 required: true,
                 trim: true
-            }
+            },
+
+            _id: false
         }],
 
         project: {

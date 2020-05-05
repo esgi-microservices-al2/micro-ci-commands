@@ -6,6 +6,16 @@ info:
 
 components:
     schemas:
+        Command:
+            properties:
+                program:
+                    type: string
+                    description: The program to launch for this command
+                arguments:
+                    type: array
+                    description: The list of arguments for this command
+                    items:
+                        type: string
         Job:
             properties:
                 project:
@@ -15,16 +25,7 @@ components:
                     type: array
                     description: The list of commands to execute for this job.
                     items:
-                        type: object
-                        properties:
-                            program:
-                                type: string
-                                description: The program to launch for this command
-                            arguments:
-                                type: array
-                                description: The list of arguments for this command
-                                items:
-                                    type: string
+                        $ref: '#/components/schemas/Command'
 
 paths:
     /jobs:
@@ -64,9 +65,62 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: object
                                 $ref: '#/components/schemas/Job'
                 '403':
                     description: Job already exists for this project.
-                '500':
+                '5XX':
+                    description: Something wrong happened
+
+    /jobs/{id}:
+        get:
+            description: Get a job.
+            responses:
+                '200':
+                    description: Job was found.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Job'
+                '404':
+                    description: Job does not exist
+                '5XX':
+                    description: Something wrong happened
+        patch:
+            description: Update a job
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Job'
+            responses:
+                '404':
+                    description: Job does not exist.
+                '5XX':
+                    description: Something wrong happened
+        delete:
+            description: Delete a job
+            responses:
+                '204':
+                    description: Job was deleted
+                '404':
+                    description: Job does not exist
+                '5XX':
+                    description: Something wrong happened
+
+    /jobs/{id}/command:
+        post:
+            description: Add a command for a job.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Command'
+            responses:
+                '201':
+                    description: Command was added to job
+                '404':
+                    description: Job does not exist
+                '5XX':
                     description: Something wrong happened
