@@ -6,14 +6,25 @@ import mongoose from 'mongoose'
 import YAML from 'yamljs'
 import path from 'path'
 import dotenv from 'dotenv'
+<<<<<<< Updated upstream
 import swaggerUi from 'swagger-ui-express'
+=======
+import cors from 'cors'
+>>>>>>> Stashed changes
 
 dotenv.config()
 
 const app = express()
 
+<<<<<<< Updated upstream
 // server documentation
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(YAML.load(path.resolve(__dirname, '../swagger.yaml'))))
+=======
+app.use(cors())
+
+
+app.use('/job', jobRouter())
+>>>>>>> Stashed changes
 
 app.use('/jobs', jobRouter())
 
@@ -31,6 +42,8 @@ app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
 });
 
 (async () => {
+
+    console.log(process.env['MONGO_DATABASE']);
     
     await mongoose.connect(`mongodb://${process.env['MONGO_HOST']}:${process.env['MONGO_PORT']}/${process.env['MONGO_DATABASE']}`, {
         useNewUrlParser: true,
