@@ -16,24 +16,26 @@ export interface IJobModel extends Model<IJob> { }
 
 const jobSchema = new Schema(
     {
-
         script: [{
 
             program: {
                 type: String,
-                required: true
+                required: true,
+                trim: true
             },
 
             arguments: {
                 type: [String],
                 required: true,
+                trim: true
             }
         }],
 
         project: {
             type: String,
             required: true,
-            unique: true
+            unique: true,
+            trim: true
         }
     },
     {

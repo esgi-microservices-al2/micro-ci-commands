@@ -3,22 +3,28 @@
 import express, { Request, Response, NextFunction } from 'express'
 import jobRouter from './controllers/job'
 import mongoose from 'mongoose'
+import YAML from 'yamljs'
+import path from 'path'
 import dotenv from 'dotenv'
+import swaggerUi from 'swagger-ui-express'
 
 dotenv.config()
 
 const app = express()
 
-app.use('/job', jobRouter())
+// server documentation
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(YAML.load(path.resolve(__dirname, '../swagger.yaml'))))
 
-app.all('*', (req, res, next) => {
+app.use('/jobs', jobRouter())
+
+app.all('*', (_req, res, _next) => {
     res.status(404).json({
         errors: [ 'Not found' ]
     })
 })
 
 // Error handler
-app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
     res.status(500).json({
         errors: [ error.message ]
     })

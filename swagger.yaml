@@ -1,0 +1,72 @@
+openapi: 3.0.0
+info:
+  title: Jobs API
+  description: The microservice CI jobs API.
+  version: 0.0.1
+
+components:
+    schemas:
+        Job:
+            properties:
+                project:
+                    type: string
+                    description: The ID of the project for this job.
+                script:
+                    type: array
+                    description: The list of commands to execute for this job.
+                    items:
+                        type: object
+                        properties:
+                            program:
+                                type: string
+                                description: The program to launch for this command
+                            arguments:
+                                type: array
+                                description: The list of arguments for this command
+                                items:
+                                    type: string
+
+paths:
+    /jobs:
+        # SEARCH FOR JOBS
+        get:
+            description: Search for jobs.
+            responses:
+                '200':
+                    description: Request successfull
+                    content: 
+                        application/json:
+                            schema:
+                                type: array
+                                description: An array of jobs.
+                                items:
+                                    type: object
+                                    $ref: '#/components/schemas/Job'
+                '500':
+                    description: Something wrong happened.
+        
+        # CREATE NEW JOB.
+        post:
+            description: Create a new job.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Job'
+            responses:
+                '201':
+                    description: Job was created.
+                    headers:
+                        Location:
+                            type: string
+                            description: The link to the created job.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/Job'
+                '403':
+                    description: Job already exists.
+                '500':
+                    description: Something wrong happened
