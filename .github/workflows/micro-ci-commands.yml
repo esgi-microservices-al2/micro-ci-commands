@@ -10,6 +10,16 @@ jobs:
     steps:
     - name: Checkout Project
       uses: actions/checkout@v1
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - run: npm ci
+      name: Install dependencies
+    - run: npm run build --if-present
+      name: "Build code"
+    - run: npm test
+      name: Test code
 
     # Add your build steps here
 
