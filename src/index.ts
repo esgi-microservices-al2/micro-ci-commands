@@ -15,7 +15,6 @@ const app = express()
 
 // server documentation
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(YAML.load(path.resolve(__dirname, '../swagger.yaml'))))
-
 app.use(cors())
 
 app.use('/jobs', jobRouter())
@@ -50,7 +49,7 @@ app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
     mongoose.connection.on('disconnected', console.error)
     mongoose.connection.on('reconnected', console.info)
 
-    const port = process.env.PORT || 80
+    const port = process.env.PORT || 3000
 
     app.listen(port, () => {
         console.log(`API is listening on port ${port}`)
