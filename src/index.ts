@@ -33,13 +33,15 @@ app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
 });
 
 (async () => {
+
+    console.log(process.env['COMMANDS_MONGO_PASSWORD'])
     
-    await mongoose.connect(`mongodb://${process.env['MONGO_HOST']}:${process.env['MONGO_PORT']}/${process.env['MONGO_DATABASE']}`, {
+    await mongoose.connect(`mongodb://${process.env['COMMANDS_MONGO_HOST']}:${process.env['COMMANDS_MONGO_PORT']}/${process.env['COMMANDS_MONGO_DATABASE']}`, {
         useNewUrlParser: true,
         bufferCommands: false,
         useUnifiedTopology: true,
-        user: process.env['MONGO_USER'],
-        pass: process.env['MONGO_PASSWORD'],
+        user: process.env['COMMANDS_MONGO_USER'],
+        pass: process.env['COMMANDS_MONGO_PASSWORD'],
         useCreateIndex: true,
         autoIndex: false,
         autoCreate: true
