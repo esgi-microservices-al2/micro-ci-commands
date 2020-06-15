@@ -14,7 +14,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
-    - run: npm ci
+    - run: npm install && npm install --development
       name: Install dependencies
     - run: npm run build --if-present
       name: "Build code"
@@ -38,7 +38,7 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        repository: micro-ci-al2/micro-ci-commands
+        repository: esgimicroci/al2-commands
         tag_with_ref: true
 
     - name: Azure Login
@@ -53,5 +53,6 @@ jobs:
           az vm run-command invoke -g ${{ secrets.AZURE_RESOURCE_GRP }} -n ${{ secrets.AZURE_VM }} --command-id RunShellScript --scripts \
           "cd /home/micro-ci-al2/micro-ci-commands && \ 
           wget -q https://raw.githubusercontent.com/esgi-microservices-al2/micro-ci-commands/master/.github/azure/docker-compose.yml -O docker-compose.yml && \ 
-          wget -q https://raw.githubusercontent.com/esgi-microservices-al2/micro-ci-commands/master/.github/azure/mongo-init-dev.js -O mongo-init-dev.js && \ 
-          docker-compose stop && docker-compose rm && docker-compose up -d"
+          wget -q https://raw.githubusercontent.com/esgi-microservices-al2/micro-ci-commands/master/.github/azure/init.sh -O init.sh && \ 
+          export COMMANDS_MONGO_PASSWORD=$(openssl rand -base64 32) && export MONGO_INITDB_ROOT_PASSWORD=$(openssl rand -base64 32) && \
+          docker-compose rm -s -f && docker-compose up -d"
