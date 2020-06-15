@@ -1,3 +1,30 @@
 version: '3'
 
-# Add your networks/volumes/services for your microservice
+services:
+
+    mongo:
+        image: mongo
+        restart: always
+        expose:
+            - "27017"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD:
+            MONGO_INITDB_DATABASE: commands
+            COMMANDS_MONGO_PASSWORD:
+        volumes:
+            - databaseVolume:/data/db
+            - ./init.sh:/docker-entrypoint-initdb.d/init.sh
+    api:
+        image: commands
+        restart: always
+        ports:
+            - "9100:80"
+        environment:
+            COMMANDS_MONGO_HOST: mongo
+            COMMANDS_MONGO_PORT: 27017
+            COMMANDS_MONGO_DATABASE: commands
+            COMMANDS_MONGO_USER: commands
+            COMMANDS_MONGO_PASSWORD:
+volumes:
+    databaseVolume: {}
