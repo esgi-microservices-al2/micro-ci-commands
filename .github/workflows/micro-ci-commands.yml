@@ -55,4 +55,4 @@ jobs:
           wget -q https://raw.githubusercontent.com/esgi-microservices-al2/micro-ci-commands/master/.github/azure/docker-compose.yml -O docker-compose.yml && \ 
           wget -q https://raw.githubusercontent.com/esgi-microservices-al2/micro-ci-commands/master/.github/azure/init.sh -O init.sh && \ 
           export COMMANDS_MONGO_PASSWORD=$(openssl rand -base64 32) && export MONGO_INITDB_ROOT_PASSWORD=$(openssl rand -base64 32) && \
-          docker-compose rm -s -f && docker-compose up -d"
+          docker-compose pull && docker image prune && docker-compose rm -s -f && docker-compose up -d"
