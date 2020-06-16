@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+echo "123" > /tmp/test
 echo $COMMANDS_MONGO_PASSWORD > /tmp/testPWD
 
 mongo <<EOF
