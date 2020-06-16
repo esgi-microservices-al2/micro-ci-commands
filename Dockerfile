@@ -1,7 +1,5 @@
 FROM node:lts
 
-COPY ./ /usr/local/src
-
 WORKDIR /usr/local/src
 
 ENV NODE_ENV "production"
