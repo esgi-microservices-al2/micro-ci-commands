@@ -25,7 +25,5 @@ services:
             COMMANDS_MONGO_DATABASE: commands
             COMMANDS_MONGO_USER: commands
             COMMANDS_MONGO_PASSWORD:
-        volumes:
-            - ../../src:/usr/local/src
 # volumes:
 #    databaseVolume: {}
