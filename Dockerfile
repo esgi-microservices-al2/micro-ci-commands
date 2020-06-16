@@ -2,6 +2,8 @@ FROM node:lts
 
 COPY ./ /usr/local/src
 
+LABEL MICROSERVICE_NAME commands
+
 WORKDIR /usr/local/src
 
 ENV NODE_ENV "production"
