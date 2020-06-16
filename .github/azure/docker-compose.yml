@@ -12,7 +12,7 @@ services:
             MONGO_INITDB_DATABASE: commands
             COMMANDS_MONGO_PASSWORD:
         volumes:
-            # - databaseVolume:/data/db
+            - databaseVolume:/data/db
             - ./init.sh:/docker-entrypoint-initdb.d/init.sh
     api:
         image: esgimicroci/al2-commands:latest
@@ -25,5 +25,5 @@ services:
             COMMANDS_MONGO_DATABASE: commands
             COMMANDS_MONGO_USER: commands
             COMMANDS_MONGO_PASSWORD:
-# volumes:
-#    databaseVolume: {}
+volumes:
+    databaseVolume: {}
