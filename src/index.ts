@@ -33,8 +33,6 @@ app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
 });
 
 (async () => {
-
-    console.log(process.env['COMMANDS_MONGO_PASSWORD'])
     
     await mongoose.connect(`mongodb://${process.env['COMMANDS_MONGO_HOST']}:${process.env['COMMANDS_MONGO_PORT']}/${process.env['COMMANDS_MONGO_DATABASE']}`, {
         useNewUrlParser: true,
