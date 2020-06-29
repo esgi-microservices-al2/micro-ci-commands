@@ -25,8 +25,8 @@ services:
             COMMANDS_MONGO_DATABASE: "commands"
             COMMANDS_MONGO_USER: "commands"
             COMMANDS_MONGO_PASSWORD:
-            CONSUL_HOST: "micro-ci.westus2.cloudapp.azure.com"
-            CONSUL_PORT: "40601" 
-            CONSUL_TOKEN: "ab8bdda5-2a4a-1ebf-0383-95ccbebe63b4"
+            COMMANDS_CONSUL_HOST: "micro-ci.westus2.cloudapp.azure.com"
+            COMMANDS_CONSUL_PORT: "40601" 
+            COMMANDS_CONSUL_TOKEN: "ab8bdda5-2a4a-1ebf-0383-95ccbebe63b4"
 volumes:
     databaseVolume: {}
