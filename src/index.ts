@@ -110,10 +110,9 @@ const listen = async () => {
 }
 
 const start = async () => {
-
     await initDb()
-    await listen()
     await register()
+    await listen()
 }
 
 start().catch(console.error)
