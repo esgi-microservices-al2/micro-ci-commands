@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/esgi-microservices-al2/micro-ci-commands#readme",
   "dependencies": {
+    "amqp-connection-manager": "^3.2.0",
+    "amqplib": "^0.5.6",
     "consul": "^0.37.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",
@@ -34,6 +36,8 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
+    "@types/amqp-connection-manager": "^2.0.10",
+    "@types/amqplib": "^0.5.13",
     "@types/consul": "^0.23.34",
     "@types/cors": "^2.8.6",
     "@types/dotenv": "^8.2.0",

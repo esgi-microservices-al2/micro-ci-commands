@@ -12,6 +12,8 @@ import consul from 'consul'
 import os from 'os'
 import { v4 as uuidv4 } from 'uuid'
 import signals from './signals'
+import statusRouter from './controllers/status'
+import AmqpClient from './amqp'
 
 dotenv.config()
 
@@ -23,6 +25,7 @@ app.use(cors())
 
 // job API
 app.use('/jobs', jobRouter())
+app.use('/status', statusRouter())
 
 // 404 handler
 app.all('*', (_req, res, _next) => {
@@ -77,13 +80,18 @@ const register = async () => {
         },
         promisify: true
     })
-    
+
     await client.agent.service.register({
         id,
         name: 'commands-microservice',
         address: 'commands-microservice',
-        port: 9100
-    })
+        port: 9100,
+        check: {
+            http: 'http://commands-microservice:9100/status',
+            interval: '5s',
+            deregistercriticalserviceafter: '30s'
+        }
+    } as any)
 
     console.log(`Registered with ID ${id}`)
 

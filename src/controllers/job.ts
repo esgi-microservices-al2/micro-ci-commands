@@ -4,6 +4,7 @@ import { Router } from "express"
 import { asyncHandler } from './controllerUtils'
 import Job from '../models/Job'
 import { jsonParser } from "./middlewares/parser"
+import AmqpClient from "../amqp"
 
 export function jobRouter (){
 
@@ -107,6 +108,30 @@ export function jobRouter (){
             data: updated.toJSON()
         })
         
+    }))
+
+    /* 
+        Message format for sending commands to docker-runner:
+
+        { "repositoryPath": "/path/to/repository" }
+    
+    */
+    router.post("/:project/execute", jsonParser, asyncHandler(async(req, res) => {
+        
+        const job = await Job.findOne({ project: req.params.project })
+
+        if (!job)
+            return res.status(404).json({
+                errors: [ `No job found for project ${req.params.project}` ]
+            })
+        
+        AmqpClient.get().send(Buffer.from(JSON.stringify({
+            repositoryPath: req.body.repositoryPath,
+            project: job.project,
+            commands: job.script.map(command => `${command.program} ${command.arguments.join(' ')}`)
+        }))).catch(console.error)
+
+        return res.end()
     }))
 
     return router

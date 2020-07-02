@@ -15,6 +15,7 @@ services:
             - ./init_database.sh:/docker-entrypoint-initdb.d/init_database.sh
     microservice-commands:
         image: esgimicroci/al2-commands:latest
+        hostname: microservice-commands
         restart: always
         ports:
             - "9100:80"
@@ -24,8 +25,16 @@ services:
             COMMANDS_MONGO_DATABASE: "commands"
             COMMANDS_MONGO_USER: "commands"
             COMMANDS_MONGO_PASSWORD:
+            
             COMMANDS_CONSUL_HOST: "micro-ci.westus2.cloudapp.azure.com"
             COMMANDS_CONSUL_PORT: "40601" 
             COMMANDS_CONSUL_TOKEN: "ab8bdda5-2a4a-1ebf-0383-95ccbebe63b4"
+
+            COMMANDS_RABBITMQ_HOST: "10.0.0.5"
+            COMMANDS_RABBITMQ_PORT: "40701"
+            COMMANDS_RABBITMQ_QUEUE: al2.docker.runner.queue
+            COMMANDS_RABBITMQ_USERNAME:
+            COMMANDS_RABBITMQ_PASSWORD:
+
 volumes:
     databaseVolume: {}
