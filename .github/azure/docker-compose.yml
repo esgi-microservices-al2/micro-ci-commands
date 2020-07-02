@@ -20,6 +20,7 @@ services:
         ports:
             - "9100:80"
         environment:
+            
             COMMANDS_MONGO_HOST: "mongo"
             COMMANDS_MONGO_PORT: "27017"
             COMMANDS_MONGO_DATABASE: "commands"
@@ -28,7 +29,7 @@ services:
             
             COMMANDS_CONSUL_HOST: "micro-ci.westus2.cloudapp.azure.com"
             COMMANDS_CONSUL_PORT: "40601" 
-            COMMANDS_CONSUL_TOKEN: "ab8bdda5-2a4a-1ebf-0383-95ccbebe63b4"
+            COMMANDS_CONSUL_TOKEN:
 
             COMMANDS_RABBITMQ_HOST: "10.0.0.5"
             COMMANDS_RABBITMQ_PORT: "40701"
