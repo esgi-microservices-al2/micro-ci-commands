@@ -118,6 +118,7 @@ const listen = async () => {
 }
 
 const start = async () => {
+    AmqpClient.get()
     await initDb()
     await register()
     await listen()
