@@ -16,10 +16,10 @@ export class AmqpClient {
         const host = process.env['COMMANDS_RABBITMQ_HOST']
         const port = process.env['COMMANDS_RABBITMQ_PORT']
 
-        this.connection = amqp.connect([`amqp://${user}:???@${host}:${port}`])
+        this.connection = amqp.connect([`amqp://${user}:${password}@${host}:${port}`])
 
         this.connection.on('connect', ({url}) => {
-            console.log(`successfully connected to ${url}`)
+            console.log(`successfully connected to amqp broker.`)
         })
 
         this.connection.on('disconnect', ({err}) => {
