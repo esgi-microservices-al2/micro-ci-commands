@@ -81,7 +81,7 @@ const register = async () => {
     await client.agent.service.register({
         id,
         name: 'commands-microservice',
-        address: os.hostname(),
+        address: 'commands-microservice',
         port: 9100
     })
 
@@ -102,7 +102,7 @@ const register = async () => {
 
 const listen = async () => {
     
-    const port = process.env.PORT || 80
+    const port = 80
 
     app.listen(port, () => {
         console.log(`API is listening on port ${port}`)
@@ -115,4 +115,7 @@ const start = async () => {
     await listen()
 }
 
-start().catch(console.error)
+start().catch((err) => {
+    console.error(err)
+    process.exit(-1)
+})

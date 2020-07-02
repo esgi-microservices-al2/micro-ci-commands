@@ -21,9 +21,7 @@ jobs:
     - run: npm test
       name: Test code
 
-    # Add your build steps here
 
-  # Uncomment and replace {userName} by your account folder name
   deploy:
     name: Build/Publish Docker Images to DockerHub & Deploy to Azure VM
     runs-on: ubuntu-latest

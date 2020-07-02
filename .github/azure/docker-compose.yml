@@ -1,6 +1,5 @@
 version: '3'
 services:
-
     mongo:
         image: mongo:latest
         restart: always
@@ -14,7 +13,7 @@ services:
         volumes:
             - databaseVolume:/data/db
             - ./init_database.sh:/docker-entrypoint-initdb.d/init_database.sh
-    api:
+    microservice-commands:
         image: esgimicroci/al2-commands:latest
         restart: always
         ports:
