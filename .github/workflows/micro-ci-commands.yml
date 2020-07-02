@@ -52,6 +52,6 @@ jobs:
           "cd /home/micro-ci-al2/micro-ci-commands && \ 
           wget -q https://raw.githubusercontent.com/esgi-microservices-al2/micro-ci-commands/master/.github/azure/docker-compose.yml -O docker-compose.yml && \ 
           wget -q https://raw.githubusercontent.com/esgi-microservices-al2/micro-ci-commands/master/.github/azure/init_database.sh -O init_database.sh && \ 
-          export COMMANDS_MONGO_PASSWORD=${{ secrets.COMMANDS_MONGO_PASSWORD }} && export MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }} && \
-          export COMMANDS_RABBITMQ_USERNAME=${{ secrets.COMMANDS_RABBITMQ_USERNAME }} && export COMMANDS_RABBITMQ_PASSWORD=${{ secrets.COMMANDS_RABBITMQ_PASSWORD }} && \
+          export COMMANDS_MONGO_PASSWORD="${{ secrets.COMMANDS_MONGO_PASSWORD }}" && export MONGO_INITDB_ROOT_PASSWORD="${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" && \
+          export COMMANDS_RABBITMQ_USERNAME="${{ secrets.COMMANDS_RABBITMQ_USERNAME }}" && export COMMANDS_RABBITMQ_PASSWORD="${{ secrets.COMMANDS_RABBITMQ_PASSWORD }}" && \
           docker-compose pull api && docker-compose rm -s -f && docker-compose up -d && docker image prune -f --filter "label=MICROSERVICE_NAME=commands" "
