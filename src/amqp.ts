@@ -11,7 +11,7 @@ export class AmqpClient {
 
     public constructor (){
         
-        const user = process.env['COMMANDS_RABBITMQ_USERNAME']
+        const user = encodeURIComponent(process.env['COMMANDS_RABBITMQ_USERNAME'] as string)
         const password = encodeURIComponent(process.env['COMMANDS_RABBITMQ_PASSWORD'] as string)
         const host = process.env['COMMANDS_RABBITMQ_HOST']
         const port = process.env['COMMANDS_RABBITMQ_PORT']
