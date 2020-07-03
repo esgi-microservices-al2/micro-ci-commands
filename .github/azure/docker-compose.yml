@@ -16,10 +16,6 @@ services:
     microservice-commands:
         image: esgimicroci/al2-commands:latest
         hostname: microservice-commands
-        dns: 
-            - host.docker.internal
-            - "1.1.1.1"
-            - "1.0.0.1"
         restart: always
         ports:
             - "9100:80"
@@ -31,15 +27,15 @@ services:
             COMMANDS_MONGO_USER: "commands"
             COMMANDS_MONGO_PASSWORD:
             
-            COMMANDS_CONSUL_HOST: "micro-ci-prof"
+            COMMANDS_CONSUL_HOST: "10.0.0.5"
             COMMANDS_CONSUL_PORT: "40601" 
             COMMANDS_CONSUL_TOKEN:
-
+                
             COMMANDS_CONSUL_SERVICE_NAME: microservice-commands
-            COMMANDS_CONSUL_SERVICE_HOST: "micro-ci-al2"
+            COMMANDS_CONSUL_SERVICE_HOST: "10.0.0.6"
             COMMANDS_CONSUL_SERVICE_PORT: "9100"
 
-            COMMANDS_RABBITMQ_HOST: "micro-ci-prof"
+            COMMANDS_RABBITMQ_HOST: "10.0.0.5"
             COMMANDS_RABBITMQ_PORT: "40701"
             COMMANDS_RABBITMQ_QUEUE: al2.docker.runner.queue
             COMMANDS_RABBITMQ_USERNAME:
