@@ -124,9 +124,9 @@ paths:
                     description: Job does not exist
                 '5XX':
                     description: Something wrong happened
-    /jobs/{projectId}/execute:
+    /rpc/{projectId}/execute:
         post:
-            description: Build hook URL for projects microservice
+            description: Build hook to send commands to docker-runner microservice
             requestBody:
                 required: true
                 content:
