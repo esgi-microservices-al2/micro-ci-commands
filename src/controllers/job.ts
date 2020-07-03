@@ -127,11 +127,11 @@ export function jobRouter (){
 
         res.end()
 
-        const payload = JSON.stringify({ ...req.body, commands })
+        const payload = { ...req.body, commands }
 
         console.log(`Sending payload to docker-runner: ${os.EOL.repeat(2)}${JSON.stringify(payload, null, 4)}`)
         
-        amqp.send(Buffer.from(payload)).catch((err) => {
+        amqp.send(Buffer.from(JSON.stringify(payload))).catch((err) => {
             console.error(`Failed to send payload to docker-runner (${err.message})`)
         })
     }))
