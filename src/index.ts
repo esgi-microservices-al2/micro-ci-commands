@@ -14,18 +14,22 @@ import { v4 as uuidv4 } from 'uuid'
 import signals from './signals'
 import statusRouter from './controllers/status'
 import AmqpClient from './amqp'
+import rpcRouter from './controllers/rpc'
 
 dotenv.config()
 
 const app = express()
 
-// server documentation
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(YAML.load(path.resolve(__dirname, '../swagger.yaml'))))
 app.use(cors())
 
-// job API
+// server documentation
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(YAML.load(path.resolve(__dirname, '../swagger.yaml'))))
+
+// APIs
 app.use('/jobs', jobRouter())
+app.use('/rpc', rpcRouter())
 app.use('/status', statusRouter())
+
 
 // 404 handler
 app.all('*', (_req, res, _next) => {
