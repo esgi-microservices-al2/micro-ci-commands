@@ -75,11 +75,11 @@ const register = async () => {
     const id = uuidv4()
 
     // Way around to find FQDN of our host server
-    const serviceHostname = await dns.promises.reverse(
+    const serviceFQDN = await dns.promises.reverse(
         (await dns.promises.lookup(process.env['COMMANDS_CONSUL_SERVICE_HOST'] as string)).address
     )
 
-    if (serviceHostname.length === 0)
+    if (serviceFQDN.length === 0)
         throw new Error('no FQDN found.')
     
     const client = consul({
@@ -94,7 +94,7 @@ const register = async () => {
 
     await client.agent.service.register({
         id,
-        name: serviceHostname,
+        name: serviceFQDN[0],
         address: process.env['COMMANDS_CONSUL_SERVICE_HOST'],
         port: parseInt(process.env['COMMANDS_CONSUL_SERVICE_PORT'] as string),
         check: {

@@ -29,13 +29,13 @@ services:
             COMMANDS_CONSUL_PORT: "40601" 
             COMMANDS_CONSUL_TOKEN:
                 
-            COMMANDS_CONSUL_SERVICE_NAME: microservice-commands
+            COMMANDS_CONSUL_SERVICE_NAME: "microservice-commands"
             COMMANDS_CONSUL_SERVICE_HOST: "micro-ci-al2"
             COMMANDS_CONSUL_SERVICE_PORT: "9100"
 
             COMMANDS_RABBITMQ_HOST: "micro-ci-prof"
             COMMANDS_RABBITMQ_PORT: "40701"
-            COMMANDS_RABBITMQ_QUEUE: al2.docker.runner.queue
+            COMMANDS_RABBITMQ_QUEUE: "al2.docker.runner.queue"
             COMMANDS_RABBITMQ_USERNAME:
             COMMANDS_RABBITMQ_PASSWORD:
 volumes:
