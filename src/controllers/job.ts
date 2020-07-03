@@ -118,17 +118,16 @@ export function jobRouter (){
         
         const job = await Job.findOne({ project: req.params.project })
 
-        if (!job)
+        /* if (!job)
             return res.status(404).json({
                 errors: [ `No job found for project ${req.params.project}` ]
-            })
+            }) */
+
+        const commands = job instanceof Job ? job.script.map(command => `${command.program} ${command.arguments.join(' ')}`) : []
 
         res.end()
 
-        const payload = JSON.stringify({
-            ...req.body,
-            commands: job.script.map(command => `${command.program} ${command.arguments.join(' ')}`)
-        })
+        const payload = JSON.stringify({ ...req.body, commands })
 
         console.log(`Sending payload to docker-runner: ${os.EOL.repeat(2)}${JSON.stringify(payload, null, 4)}`)
         
