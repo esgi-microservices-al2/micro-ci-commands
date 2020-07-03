@@ -89,7 +89,7 @@ const register = async () => {
         check: {
             http: `http://${process.env['COMMANDS_CONSUL_SERVICE_HOST']}:${process.env['COMMANDS_CONSUL_SERVICE_PORT']}/status`,
             interval: '5s',
-            //deregistercriticalserviceafter: '30s'
+            deregistercriticalserviceafter: '30s'
         }
     } as any)
 

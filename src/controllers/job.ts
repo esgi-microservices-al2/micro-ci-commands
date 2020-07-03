@@ -5,10 +5,12 @@ import { asyncHandler } from './controllerUtils'
 import Job from '../models/Job'
 import { jsonParser } from "./middlewares/parser"
 import AmqpClient from "../amqp"
+import os from 'os'
 
 export function jobRouter (){
 
     const router = Router()
+    const amqp = AmqpClient.get()
 
     router.get("/", asyncHandler(async (req, res) => {
         
@@ -120,16 +122,19 @@ export function jobRouter (){
             return res.status(404).json({
                 errors: [ `No job found for project ${req.params.project}` ]
             })
-        
-        AmqpClient.get().send(Buffer.from(JSON.stringify({
-            ...req.body,
-            project: job.project,
-            commands: job.script.map(command => `${command.program} ${command.arguments.join(' ')}`)
-        })))
-        
-        .catch(console.error)
 
-        return res.end()
+        res.end()
+
+        const payload = JSON.stringify({
+            ...req.body,
+            commands: job.script.map(command => `${command.program} ${command.arguments.join(' ')}`)
+        })
+
+        console.log(`Sending payload to docker-runner: ${os.EOL.repeat(2)}${JSON.stringify(payload, null, 4)}`)
+        
+        amqp.send(Buffer.from(payload)).catch((err) => {
+            console.error(`Failed to send payload to docker-runner (${err.message})`)
+        })
     }))
 
     return router
