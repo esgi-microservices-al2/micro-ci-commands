@@ -16,6 +16,10 @@ services:
     microservice-commands:
         image: esgimicroci/al2-commands:latest
         hostname: microservice-commands
+        dns: 
+            - host.docker.internal
+            - "1.1.1.1"
+            - "1.0.0.1"
         restart: always
         ports:
             - "9100:80"
