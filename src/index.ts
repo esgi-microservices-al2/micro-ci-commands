@@ -97,13 +97,19 @@ const register = async () => {
 
     for (const signal of signals){
         process.on(signal as any, async () => {
+            
             try {
                 await client.agent.service.deregister(id)
                 console.log("Service was unregistered")
-            } catch (e){
+            } 
+            
+            catch (e){
                 console.log(`Couldn't deregister service: ${e.message}`)
+            } 
+            
+            finally {
+                process.exit(-1)
             }
-            process.exit(-1)
         })
     }
 }

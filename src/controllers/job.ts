@@ -24,11 +24,10 @@ export function jobRouter (){
         
         const job = await Job.findById(req.params.id)
 
-        if (!job){
+        if (!job)
             return res.status(404).json({
                 errors: [ 'Not found' ]
             })
-        }
 
         return res.json({
             data: job.toJSON()
@@ -36,9 +35,7 @@ export function jobRouter (){
 
     }))
 
-    router.post("/", jsonParser, asyncHandler(async (req, res, next) => {
-
-        // MUST CHECK IF PROJECT EXISTS
+    router.post("/", jsonParser, asyncHandler(async (req, res) => {
 
         if (await Job.findOne({ project: req.body.project}) !== null)
             return res.status(403).json({
@@ -56,15 +53,14 @@ export function jobRouter (){
         })
     }))
 
-    router.post("/:id/command", jsonParser, asyncHandler(async (req, res, next) => {
+    router.post("/:id/command", jsonParser, asyncHandler(async (req, res) => {
 
         const job = await Job.findById(req.params.id)
 
-        if (!job){
+        if (!job)
             return res.status(404).json({
                 errors: [ 'Not found' ]
             })
-        }
 
         job.script.push(req.body)
 
@@ -75,7 +71,7 @@ export function jobRouter (){
         })
     }))
 
-    router.delete("/:id", asyncHandler(async (req, res, next) => {
+    router.delete("/:id", asyncHandler(async (req, res) => {
         
         const deleted = await Job.findByIdAndDelete(req.params.id)
 
@@ -88,7 +84,7 @@ export function jobRouter (){
         return res.status(204).end()
     }))
 
-    router.patch("/:id", jsonParser, asyncHandler(async (req, res, next) => {
+    router.patch("/:id", jsonParser, asyncHandler(async (req, res) => {
 
         const existing = await Job.findById(req.params.id)
 
@@ -126,10 +122,12 @@ export function jobRouter (){
             })
         
         AmqpClient.get().send(Buffer.from(JSON.stringify({
-            repositoryPath: req.body.repositoryPath,
+            ...req.body,
             project: job.project,
             commands: job.script.map(command => `${command.program} ${command.arguments.join(' ')}`)
-        }))).catch(console.error)
+        })))
+        
+        .catch(console.error)
 
         return res.end()
     }))

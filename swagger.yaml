@@ -124,3 +124,25 @@ paths:
                     description: Job does not exist
                 '5XX':
                     description: Something wrong happened
+    /jobs/{projectId}/execute:
+        post:
+            description: Build hook URL for projects microservice
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            properties:
+                                repositoryPath:
+                                    type: string
+                                    description: The path to the project's repository in the docker-runner/project shared volume
+                                build:
+                                    type: string
+                                    description: The build ID
+                response:
+                    '200':
+                        description: The payload has been processed
+                    '404':
+                        description: This project does not have any command
+                    '5XX':
+                        description: Something wrong happened
