@@ -4,14 +4,13 @@ import { Router } from "express"
 import { jsonParser } from "./middlewares/parser"
 import { asyncHandler } from "./controllerUtils"
 import Job from "../models/Job"
-import AmqpClient from '../amqp'
+import Amqp from '../amqp'
 import os from 'os'
 
 export function rpcRouter (){
 
     const router = Router()
-
-    const amqp = AmqpClient.get()
+    const amqp = Amqp.get()
 
     router.post("/:project/execute", jsonParser, asyncHandler(async(req, res) => {
         

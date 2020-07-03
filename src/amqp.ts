@@ -2,12 +2,12 @@
 
 import amqp, { AmqpConnectionManager, ChannelWrapper } from 'amqp-connection-manager'
 
-export class AmqpClient {
+export class Amqp {
     
     private connection: AmqpConnectionManager
     private channel: ChannelWrapper
     
-    private static instance: AmqpClient
+    private static instance: Amqp
 
     public constructor (){
         
@@ -29,10 +29,10 @@ export class AmqpClient {
         this.channel = this.connection.createChannel()
     }
 
-    public static get (): AmqpClient {
-        if (!(AmqpClient.instance  instanceof AmqpClient))
-            AmqpClient.instance = new AmqpClient()
-        return AmqpClient.instance
+    public static get (): Amqp {
+        if (!(Amqp.instance  instanceof Amqp))
+            Amqp.instance = new Amqp()
+        return Amqp.instance
     }
 
     public async send (buff: Buffer) {
@@ -40,4 +40,4 @@ export class AmqpClient {
     }
 }
 
-export default AmqpClient
+export default Amqp

@@ -13,7 +13,7 @@ import os from 'os'
 import { v4 as uuidv4 } from 'uuid'
 import signals from './signals'
 import statusRouter from './controllers/status'
-import AmqpClient from './amqp'
+import Amqp from './amqp'
 import rpcRouter from './controllers/rpc'
 
 dotenv.config()
@@ -128,7 +128,6 @@ const listen = async () => {
 }
 
 const start = async () => {
-    AmqpClient.get()
     await initDb()
     await register()
     await listen()
