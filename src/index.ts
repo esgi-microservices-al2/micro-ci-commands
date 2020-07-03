@@ -9,12 +9,11 @@ import dotenv from 'dotenv'
 import swaggerUi from 'swagger-ui-express'
 import cors from 'cors'
 import consul from 'consul'
-import os from 'os'
 import { v4 as uuidv4 } from 'uuid'
 import signals from './signals'
 import statusRouter from './controllers/status'
-import Amqp from './amqp'
 import rpcRouter from './controllers/rpc'
+import dns from 'dns'
 
 dotenv.config()
 
@@ -74,6 +73,14 @@ const initDb = async () => {
 const register = async () => {
 
     const id = uuidv4()
+
+    // Way around to find FQDN of our host server
+    const serviceHostname = await dns.promises.reverse(
+        (await dns.promises.lookup(process.env['COMMANDS_CONSUL_SERVICE_HOST'] as string)).address
+    )
+
+    if (serviceHostname.length === 0)
+        throw new Error('no FQDN found.')
     
     const client = consul({
         host: process.env['COMMANDS_CONSUL_HOST'],
@@ -87,7 +94,7 @@ const register = async () => {
 
     await client.agent.service.register({
         id,
-        name: process.env['COMMANDS_CONSUL_SERVICE_NAME'],
+        name: serviceHostname,
         address: process.env['COMMANDS_CONSUL_SERVICE_HOST'],
         port: parseInt(process.env['COMMANDS_CONSUL_SERVICE_PORT'] as string),
         check: {
