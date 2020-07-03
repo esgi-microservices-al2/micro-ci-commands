@@ -29,6 +29,9 @@ services:
             
             COMMANDS_CONSUL_HOST: "micro-ci.westus2.cloudapp.azure.com"
             COMMANDS_CONSUL_PORT: "40601" 
+            COMMANDS_CONSUL_SERVICE_NAME: microservice-commands
+            COMMANDS_CONSUL_SERVICE_HOST: "10.0.0.5"
+            COMMANDS_CONSUL_SERVICE_PORT: "9100"
             COMMANDS_CONSUL_TOKEN:
 
             COMMANDS_RABBITMQ_HOST: "10.0.0.5"

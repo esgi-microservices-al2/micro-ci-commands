@@ -83,11 +83,11 @@ const register = async () => {
 
     await client.agent.service.register({
         id,
-        name: 'commands-microservice',
-        address: 'commands-microservice',
-        port: 9100,
+        name: process.env['COMMANDS_CONSUL_SERVICE_NAME'],
+        address: process.env['COMMANDS_CONSUL_SERVICE_HOST'],
+        port: parseInt(process.env['COMMANDS_CONSUL_SERVICE_PORT'] as string),
         check: {
-            http: 'http://commands-microservice:9100/status',
+            http: `http://${process.env['COMMANDS_CONSUL_SERVICE_HOST']}:${process.env['COMMANDS_CONSUL_SERVICE_PORT']}/status`,
             interval: '5s',
             deregistercriticalserviceafter: '30s'
         }
