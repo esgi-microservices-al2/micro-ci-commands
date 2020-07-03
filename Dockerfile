@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:lts-buster-slim
 
 COPY ./ /usr/local/src
 
