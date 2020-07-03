@@ -19,7 +19,7 @@ export function rpcRouter (){
 
         const commands = job instanceof Job ? job.script.map(command => `${command.program} ${command.arguments.join(' ')}`) : []
 
-        res.end({
+        res.json({
             message: [ job ? `Sent command for project ${req.params.project} to docker-runner` : `No commands for project ${req.params.project} found, sending payload to docker-runner anyway.` ]
         })
 
