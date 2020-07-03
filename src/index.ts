@@ -94,8 +94,8 @@ const register = async () => {
 
     await client.agent.service.register({
         id,
-        name: serviceFQDN[0],
-        address: process.env['COMMANDS_CONSUL_SERVICE_HOST'],
+        name: process.env['COMMANDS_CONSUL_SERVICE_NAME'] as string,
+        address: serviceFQDN[0],
         port: parseInt(process.env['COMMANDS_CONSUL_SERVICE_PORT'] as string),
         check: {
             http: `http://${process.env['COMMANDS_CONSUL_SERVICE_HOST']}:${process.env['COMMANDS_CONSUL_SERVICE_PORT']}/status`,
