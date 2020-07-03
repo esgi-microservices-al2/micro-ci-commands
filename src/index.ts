@@ -72,14 +72,16 @@ const initDb = async () => {
 
 const register = async () => {
 
-    const id = uuidv4()
+    const ids: string [] = []
 
-    // Way around to find FQDN of our host server
-    const serviceFQDN = await dns.promises.reverse(
-        (await dns.promises.lookup(process.env['COMMANDS_CONSUL_SERVICE_HOST'] as string)).address
-    )
+    const hostIp = (await dns.promises.lookup(process.env['COMMANDS_CONSUL_SERVICE_HOST'] as string)).address
 
-    if (serviceFQDN.length === 0)
+    if (!hostIp)
+        throw new Error('could not resolve host IP address')
+
+    const fqdns = await dns.promises.reverse(hostIp)
+
+    if (fqdns.length === 0)
         throw new Error('no FQDN found.')
     
     const client = consul({
@@ -92,26 +94,33 @@ const register = async () => {
         promisify: true
     })
 
-    await client.agent.service.register({
-        id,
-        name: process.env['COMMANDS_CONSUL_SERVICE_NAME'] as string,
-        address: serviceFQDN[0],
-        port: parseInt(process.env['COMMANDS_CONSUL_SERVICE_PORT'] as string),
-        check: {
-            http: `http://${process.env['COMMANDS_CONSUL_SERVICE_HOST']}:${process.env['COMMANDS_CONSUL_SERVICE_PORT']}/status`,
-            interval: '5s',
-            deregistercriticalserviceafter: '30s'
-        }
-    } as any)
+    for (const fqdn of fqdns){
 
-    console.log(`Registered with ID ${id}`)
+        ids.push(uuidv4())
+
+        await client.agent.service.register({
+            id: ids[ids.length - 1],
+            name: process.env['COMMANDS_CONSUL_SERVICE_NAME'] as string,
+            address: fqdn,
+            port: parseInt(process.env['COMMANDS_CONSUL_SERVICE_PORT'] as string),
+            check: {
+                http: `http://${fqdn}:${process.env['COMMANDS_CONSUL_SERVICE_PORT']}/status`,
+                interval: '5s',
+                deregistercriticalserviceafter: '30s'
+            }
+        } as any)
+
+        console.log(`Registered with ID ${ids[ids.length - 1]} for ${fqdn}`)
+    }
 
     for (const signal of signals){
         process.on(signal as any, async () => {
             
             try {
-                await client.agent.service.deregister(id)
-                console.log("Service was unregistered")
+                for (const id of ids){
+                    await client.agent.service.deregister(id)
+                    console.log("Service was unregistered")
+                }
             } 
             
             catch (e){
