@@ -30,11 +30,7 @@ export class Amqp {
         this.channel = this.connection.createChannel({ 
             json: true,
             setup: (ch: ConfirmChannel) => {
-                return ch.assertQueue(this.getQueueName(), {
-                    durable: true, 
-                    autoDelete: false, 
-                    exclusive: false 
-                })
+                return ch.checkQueue(this.getQueueName())
             }
         })
     }
