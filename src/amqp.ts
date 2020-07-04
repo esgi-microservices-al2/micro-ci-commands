@@ -1,6 +1,7 @@
 'use strict'
 
 import amqp, { AmqpConnectionManager, ChannelWrapper } from 'amqp-connection-manager'
+import { ConfirmChannel } from 'amqplib'
 
 export class Amqp {
     
@@ -26,7 +27,16 @@ export class Amqp {
             console.log(`disconnected from an AMQP broker (${err.message})`)
         })
 
-        this.channel = this.connection.createChannel()
+        this.channel = this.connection.createChannel({ 
+            json: true,
+            setup: (ch: ConfirmChannel) => {
+                return ch.assertQueue(this.getQueueName(), {
+                    durable: true, 
+                    autoDelete: false, 
+                    exclusive: false 
+                })
+            }
+        })
     }
 
     public static get (): Amqp {
@@ -35,9 +45,11 @@ export class Amqp {
         return Amqp.instance
     }
 
-    public async send (buff: Buffer) {
-        await this.channel.sendToQueue(process.env['COMMANDS_RABBITMQ_QUEUE'] as string, buff)
+    public async send (message: any) {
+        await this.channel.sendToQueue(this.getQueueName(), message)
     }
-}
+
+    private getQueueName = () => process.env['COMMANDS_RABBITMQ_QUEUE'] as string
+} 
 
 export default Amqp

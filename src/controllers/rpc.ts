@@ -28,7 +28,7 @@ export function rpcRouter (){
 
         console.log(`Sending payload to docker-runner: ${os.EOL.repeat(2)}${JSON.stringify(payload, null, 4)}`)
         
-        amqp.send(Buffer.from(JSON.stringify(payload)))
+        amqp.send(payload)
         
         .catch((err) => {
             console.error(`Failed to send payload to docker-runner (${err.message})`)
