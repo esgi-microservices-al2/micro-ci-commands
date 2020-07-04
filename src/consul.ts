@@ -3,7 +3,7 @@
 import signals from "./signals"
 import { v4 as uuidv4 } from 'uuid'
 import consul from 'consul'
-import dns from 'dns'
+
 
 export const registerToConsul = async () => {
 
@@ -31,7 +31,7 @@ export const registerToConsul = async () => {
 
     for (const fqdn of fqdns){
 
-        ids.push(uuidv4())
+        ids.push(`micro-ci-commands-${ids.length}`)
 
         await client.agent.service.register({
             id: ids[ids.length - 1],
