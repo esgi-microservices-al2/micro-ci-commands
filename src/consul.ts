@@ -1,7 +1,7 @@
 'use strict'
 
 import signals from "./signals"
-import { v4 as uuidv4 } from 'uuid'
+import dns from 'dns'
 import consul from 'consul'
 
 
