@@ -1,4 +1,4 @@
-export const signals = [ 
+export const signals: any[] = [ 
     'SIGABRT',
     'SIGALRM',
     'SIGHUP',

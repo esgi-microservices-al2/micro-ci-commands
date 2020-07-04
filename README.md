@@ -29,9 +29,9 @@ The payload will be in JSON format and will look like this:
 ```
 {
     "commands": [
-        "uname -a",
-        "echo \"Hello, world!\"",
-        "exit"
+        [ "echo", "Hello,", "World!" ],
+        [ "uname", "-a" ],
+        [ "exit" ],
     ]
     ... any data received from micro-ci-projects (path to project for example)
 }

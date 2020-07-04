@@ -16,17 +16,21 @@ export function rpcRouter (){
         
         const job = await Job.findOne({ project: req.params.project })
 
-        const commands = job instanceof Job ? job.script.map(command => `${command.program} ${command.arguments.join(' ')}`) : []
+        const commands = job instanceof Job ? job.script.map(command => [  command.program, ...command.arguments ]) : []
 
         res.json({
-            message: [ job ? `Sent command for project ${req.params.project} to docker-runner` : `No commands for project ${req.params.project} found, sending payload to docker-runner anyway.` ]
+            message:  job ? 
+                `Sent command for project ${req.params.project} to docker-runner` : 
+                `No commands for project ${req.params.project} found, sending payload to docker-runner anyway.` 
         })
 
         const payload = { ...req.body, commands }
 
         console.log(`Sending payload to docker-runner: ${os.EOL.repeat(2)}${JSON.stringify(payload, null, 4)}`)
         
-        amqp.send(Buffer.from(JSON.stringify(payload))).catch((err) => {
+        amqp.send(Buffer.from(JSON.stringify(payload)))
+        
+        .catch((err) => {
             console.error(`Failed to send payload to docker-runner (${err.message})`)
         })
     }))
