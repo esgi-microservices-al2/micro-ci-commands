@@ -35,6 +35,11 @@ export const registerToConsul = async () => {
 
         await client.agent.service.register({
             id: ids[ids.length - 1],
+            tags: [
+                'traefik.enable=true',
+                'traefik.frontend.entryPoints=http',
+                'traefik.frontend.rule=PathPrefix:/jobs'
+            ],
             name: process.env['COMMANDS_CONSUL_SERVICE_NAME'] as string,
             address: fqdn,
             port: parseInt(process.env['COMMANDS_CONSUL_SERVICE_PORT'] as string),
