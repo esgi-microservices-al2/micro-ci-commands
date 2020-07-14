@@ -36,8 +36,9 @@ app.all('*', (_req, res, _next) => {
 // error handler
 app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
     res.status(500).json({
-        errors: [ error.message ]
+        errors: [ process.env['NODE_ENV'] === 'development' ? error.message : 'Internal server error' ]
     })
+    console.error(error)
 })
 
 const start = async () => {

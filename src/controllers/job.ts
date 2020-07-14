@@ -10,8 +10,10 @@ export function jobRouter (){
     const router = Router()
 
     router.get("/", asyncHandler(async (req, res) => {
-        
-        const jobs = await Job.find(req.query)
+
+        const jobs = await Job.find({
+            project: req.body.project
+        })
         
         return res.json({
             data: jobs.map(j => j.toJSON())
