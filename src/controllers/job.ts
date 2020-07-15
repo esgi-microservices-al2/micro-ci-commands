@@ -23,7 +23,7 @@ export function jobRouter (){
 
     router.get("/:id", asyncHandler(async (req, res) => {
         
-        const job = await Job.findById(req.params.id)
+        const job = await Job.findOne({ project: req.params.id})
 
         if (!job)
             return res.status(404).json({
@@ -56,7 +56,7 @@ export function jobRouter (){
 
     router.post("/:id/command", jsonParser, asyncHandler(async (req, res) => {
 
-        const job = await Job.findById(req.params.id)
+        const job = await Job.findOne({ project: req.params.id})
 
         if (!job)
             return res.status(404).json({
@@ -87,7 +87,7 @@ export function jobRouter (){
 
     router.patch("/:id", jsonParser, asyncHandler(async (req, res) => {
 
-        const existing = await Job.findById(req.params.id)
+        const existing = await Job.findOne({ project: req.params.id})
 
         if (!existing)
             return res.status(404).json({
