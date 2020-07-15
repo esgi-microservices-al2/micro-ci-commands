@@ -20,7 +20,7 @@ export function rpcRouter (){
 
         res.json({
             message:  job ? 
-                `Sent command for project ${req.params.project} to docker-runner` : 
+                `Sent ${commands.length} commands for project ${req.params.project} to docker-runner` : 
                 `No commands for project ${req.params.project} found, sending payload to docker-runner anyway.` 
         })
 
